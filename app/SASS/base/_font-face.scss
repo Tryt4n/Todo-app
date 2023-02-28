@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Josefin Sans";
+  font-weight: normal;
+  src: url("/app/assets/fonts/josefinsans-regular-webfont.woff2") format("woff2"),
+    url("/app/assets/fonts/josefinsans-regular-webfont.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Josefin Sans";
+  font-weight: bold;
+  src: url("/app/assets/fonts/josefinsans-bold-webfont.woff2") format("woff2"),
+    url("/app/assets/fonts/josefinsans-bold-webfont.woff") format("woff");
+}

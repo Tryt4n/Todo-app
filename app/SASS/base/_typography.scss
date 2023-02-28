@@ -1,0 +1,8 @@
+@forward "./font-face";
+@use "./functions" as func;
+
+body {
+  font-family: "Josefin Sans, sans-serif";
+  font-weight: normal;
+  font-size: func.rem(18);
+}
