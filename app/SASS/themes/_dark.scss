@@ -1,0 +1,69 @@
+@use "../base/functions" as func;
+@use "../abstracts/variables" as v;
+@use "../abstracts/colors" as c;
+
+body.dark {
+  color-scheme: dark;
+  background: c.$very-dark-blue-theme-dark;
+  main {
+    &::before {
+      background: url("../assets/images/bg-desktop-dark.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+
+      @media (width < func.rem(768)) {
+        background: url("../assets/images/bg-mobile-dark.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    }
+  }
+
+  .create-section,
+  .todo-container {
+    background: c.$very-dark-desaturated-blue-theme-dark;
+  }
+
+  label,
+  input[type="text"] {
+    color: c.$light-grayish-blue-theme-dark;
+  }
+
+  label.checked {
+    color: c.$dark-grayish-blue-theme-dark;
+  }
+
+  hr {
+    border-color: c.$very-dark-grayish-blue-2-theme-dark;
+  }
+
+  .todo-footer,
+  .todo-aside-note {
+    color: c.$dark-grayish-blue-theme-dark;
+  }
+
+  .todo-footer button:not(.active):where(:hover, :focus-visible) {
+    color: c.$light-grayish-blue-hover-theme-dark;
+  }
+
+  .todo-navigation {
+    @media (width < func.rem(768)) {
+      background: c.$very-dark-desaturated-blue-theme-dark;
+    }
+  }
+
+  input[type="text"]::placeholder {
+    color: c.$dark-grayish-blue-theme-dark;
+  }
+
+  input[type="checkbox"] {
+    &::before {
+      border-color: c.$very-dark-grayish-blue-2-theme-dark;
+    }
+  }
+
+  input[type="checkbox"]:where(:hover, :focus-visible):not(:checked):before {
+    border-color: c.$check-background-cyan;
+  }
+}

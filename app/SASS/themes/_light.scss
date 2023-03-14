@@ -1,0 +1,61 @@
+@use "../base/functions" as func;
+@use "../abstracts/variables" as v;
+@use "../abstracts/colors" as c;
+
+body {
+  background: c.$very-light-grayish-blue;
+}
+
+main {
+  &::before {
+    background: url("../assets/images/bg-desktop-light.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    @media (width < func.rem(768)) {
+      background: url("../assets/images/bg-mobile-light.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+}
+
+.create-section,
+.todo-container {
+  background: c.$very-light-gray;
+}
+
+label {
+  color: c.$very-dark-grayish-blue;
+}
+
+label.checked {
+  color: c.$light-grayish-blue;
+}
+
+hr {
+  border-color: c.$light-grayish-blue;
+}
+
+.todo-footer,
+.todo-aside-note {
+  color: c.$dark-grayish-blue;
+}
+
+.todo-footer button:not(.active):where(:hover, :focus-visible) {
+  color: c.$very-dark-grayish-blue;
+}
+
+.todo-navigation {
+  @media (width < func.rem(768)) {
+    background: c.$very-light-gray;
+  }
+}
+
+input[type="text"] {
+  color: c.$very-dark-grayish-blue;
+}
+input[type="text"]::placeholder {
+  color: c.$dark-grayish-blue;
+}

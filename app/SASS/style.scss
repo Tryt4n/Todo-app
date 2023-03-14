@@ -1,1 +1,155 @@
 @forward "./base/index";
+@forward "./themes/index";
+@forward "./components/index";
+@use "./base/functions" as func;
+@use "./abstracts/colors" as c;
+@use "./abstracts/variables" as v;
+@use "./abstracts/mixins" as *;
+
+main {
+  width: fit-content;
+  margin-inline: auto;
+  min-height: 100vh;
+  width: func.rem(700);
+  max-width: 90dvw;
+  margin-block: 4rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: func.rem(300);
+    z-index: -1;
+
+    @media (width < func.rem(768)) {
+      height: func.rem(250);
+    }
+  }
+}
+
+@media (width >= func.rem(768)) {
+  .delete-btn {
+    opacity: 0;
+    transition: v.$main-transition;
+  }
+}
+
+.theme-switcher {
+  transition: v.$main-transition;
+  &:where(:hover, :focus-visible) {
+    filter: invert(1);
+  }
+}
+
+.header-section {
+  @include flex(row, space-between, center);
+  margin-bottom: 2rem;
+  & h1 {
+    font-size: clamp(2rem, 5vw + 0.5rem, 4rem);
+    color: c.$very-light-grayish-blue;
+    font-weight: bold;
+    letter-spacing: 0.25em;
+  }
+}
+
+.create-section {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  @include flex;
+  gap: 3rem;
+}
+
+.todo-container {
+  position: relative;
+  padding: 1rem;
+  border-radius: 0.5rem;
+
+  &__item {
+    padding-block: 0.5rem;
+    @include flex(row, flex-start, center);
+    gap: 3rem;
+    & input:before,
+    input::after {
+      translate: 0 -50%;
+    }
+
+    & label {
+      flex-grow: 1;
+      cursor: pointer;
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+
+    & label.checked {
+      text-decoration: line-through;
+    }
+
+    &:where(:hover, :focus-within) .delete-btn {
+      opacity: 1;
+    }
+  }
+
+  & hr {
+    margin-block: 0.5rem;
+    margin-inline: -1rem;
+    border-top: none;
+    border-inline: none;
+  }
+}
+
+.todo-footer {
+  @include flex(row, space-between);
+  padding-top: 0.5rem;
+  font-size: func.rem(13);
+
+  & button {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    transition: v.$main-transition;
+
+    &:where(.active) {
+      color: c.$bright-blue;
+    }
+  }
+
+  & .todo-navigation button {
+    font-weight: bold;
+    margin-right: 1rem;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.todo-aside-note {
+  width: max-content;
+  margin-inline: auto;
+  margin-top: 3rem;
+}
+
+@media (width < func.rem(768)) {
+  main {
+    margin-block: 4.5rem;
+  }
+  .todo-navigation {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 100%;
+    translate: -50% 4rem;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    @include flex(row, center);
+    gap: 1rem;
+  }
+
+  .todo-aside-note {
+    margin-top: 7.5rem;
+  }
+}

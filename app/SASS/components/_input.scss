@@ -1,0 +1,12 @@
+@use "../abstracts/colors" as c;
+
+input[type="text"] {
+  border: none;
+  flex-grow: 1;
+  padding: 0.25em;
+  font-family: inherit;
+  font-size: inherit;
+  background-color: transparent;
+  outline: none;
+  caret-color: c.$bright-blue;
+}

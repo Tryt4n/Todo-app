@@ -35,13 +35,14 @@ a {
 
 img {
   user-select: none;
+  display: block;
 }
 
 button {
   margin: 0;
   padding: 0;
   border: 0;
-  outline: none;
+  outline-offset: 0.25em;
   border: none;
   background: none;
   cursor: pointer;

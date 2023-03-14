@@ -1,0 +1,47 @@
+@use "../abstracts/colors" as c;
+@use "../abstracts/variables" as v;
+@use "../base/functions" as func;
+
+input[type="checkbox"] {
+  appearance: none;
+  margin: 0;
+  position: relative;
+  cursor: pointer;
+
+  &::before {
+    position: absolute;
+    content: "";
+    width: func.rem(30);
+    height: func.rem(30);
+    inset: 0;
+    background: transparent;
+    border: func.rem(1) solid;
+    border-color: c.$light-grayish-blue;
+    border-radius: 50%;
+    scale: 0.75;
+    transition: v.$main-transition;
+  }
+  &::after {
+    position: absolute;
+    content: "";
+    width: func.rem(30);
+    height: func.rem(30);
+    background: url("/app/assets/images/icon-check.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: v.$main-transition;
+  }
+}
+input[type="checkbox"]:checked::after {
+  opacity: 1;
+}
+
+input[type="checkbox"]:checked::before {
+  border: none;
+  background: linear-gradient(135deg, c.$check-background-cyan, c.$check-background-pink);
+}
+
+input[type="checkbox"]:where(:hover, :focus-visible):not(:checked):before {
+  border-color: c.$check-background-cyan;
+}
