@@ -341,6 +341,7 @@ main::before {
 .todo-container__item label {
   flex-grow: 1;
   cursor: pointer;
+  transition: 300ms ease-in-out;
 }
 .todo-container__item label::first-letter {
   text-transform: uppercase;

@@ -80,6 +80,7 @@ main {
     & label {
       flex-grow: 1;
       cursor: pointer;
+      transition: v.$main-transition;
       &::first-letter {
         text-transform: uppercase;
       }

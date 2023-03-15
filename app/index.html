@@ -26,88 +26,36 @@
       <section class="create-section">
         <h2 class="visually-hidden">Create a new todo</h2>
         <label for="new-todo-checkbox" class="visually-hidden">Check as done</label>
-        <input type="checkbox" name="new-todo-checkbox" id="new-todo-checkbox" />
+        <input
+          type="checkbox"
+          name="new-todo-checkbox"
+          id="new-todo-checkbox"
+          data-new-todo-checkbox
+        />
 
         <label for="new-todo" class="visually-hidden">Create a new todo </label>
-        <input type="text" name="new-todo" id="new-todo" placeholder="Create a new todo..." />
+        <input
+          type="text"
+          name="new-todo"
+          id="new-todo"
+          placeholder="Create a new todo..."
+          data-new-todo-input
+        />
       </section>
 
       <section class="todo-container">
         <h2 class="visually-hidden">Todo List</h2>
-        <div>
-          <div class="todo-container__item">
-            <input type="checkbox" name="todo-checkbox1" id="todo-checkbox1" checked />
-            <label class="checked" for="todo-checkbox1">Complete online JavaScript course</label>
-            <button class="delete-btn">
-              <img src="assets/images/icon-cross.svg" alt="delete icon" />
-            </button>
-          </div>
-          <hr />
-        </div>
 
-        <div>
-          <div class="todo-container__item">
-            <input type="checkbox" name="todo-checkbox2" id="todo-checkbox2" />
-            <label for="todo-checkbox2">Jog around the park 3x</label>
-            <button class="delete-btn">
-              <img src="assets/images/icon-cross.svg" alt="delete icon" />
-            </button>
-          </div>
-          <hr />
-        </div>
-
-        <div>
-          <div class="todo-container__item">
-            <input type="checkbox" name="todo-checkbox3" id="todo-checkbox3" />
-            <label for="todo-checkbox3">10 minutes meditation</label>
-            <button class="delete-btn">
-              <img src="assets/images/icon-cross.svg" alt="delete icon" />
-            </button>
-          </div>
-          <hr />
-        </div>
-
-        <div>
-          <div class="todo-container__item">
-            <input type="checkbox" name="todo-checkbox4" id="todo-checkbox4" />
-            <label for="todo-checkbox4">Read for 1 hour</label>
-            <button class="delete-btn">
-              <img src="assets/images/icon-cross.svg" alt="delete icon" />
-            </button>
-          </div>
-          <hr />
-        </div>
-
-        <div>
-          <div class="todo-container__item">
-            <input type="checkbox" name="todo-checkbox5" id="todo-checkbox5" />
-            <label for="todo-checkbox5">Pick up groceries</label>
-            <button class="delete-btn">
-              <img src="assets/images/icon-cross.svg" alt="delete icon" />
-            </button>
-          </div>
-          <hr />
-        </div>
-
-        <div>
-          <div class="todo-container__item">
-            <input type="checkbox" name="todo-checkbox6" id="todo-checkbox6" />
-            <label for="todo-checkbox6">complete Todo App on Frontend Mentor</label>
-            <button class="delete-btn">
-              <img src="assets/images/icon-cross.svg" alt="delete icon" />
-            </button>
-          </div>
-          <hr />
-        </div>
+        <div data-todo-list-container></div>
 
         <div class="todo-footer">
-          <p>5 item left</p>
-          <div class="todo-navigation">
-            <button class="active">All</button>
-            <button>Active</button>
-            <button>Completed</button>
+          <p data-todo-list-length>0 item left</p>
+          <div class="todo-navigation" data-todo-navigation>
+            <button class="active" data-todo-all-btn>All</button>
+            <button data-todo-active-btn>Active</button>
+            <button data-todo-completed-btn>Completed</button>
           </div>
-          <button>Clear Completed</button>
+          <button data-clear-all-completed-btn>Clear Completed</button>
         </div>
       </section>
 
@@ -115,5 +63,24 @@
         <small>Drag and drop to reorder list</small>
       </aside>
     </main>
+
+    <template data-todo-template>
+      <div data-todo-item>
+        <div class="todo-container__item">
+          <input
+            type="checkbox"
+            name="todo-checkbox"
+            id="todo-checkbox"
+            data-todo-template-checkbox
+            data-todo-checkbox
+          />
+          <label for="todo-checkbox" data-todo-template-label data-todo-label></label>
+          <button class="delete-btn" data-todo-delete-btn>
+            <img src="assets/images/icon-cross.svg" alt="delete icon" data-todo-delete-btn-image />
+          </button>
+        </div>
+        <hr />
+      </div>
+    </template>
   </body>
 </html>
