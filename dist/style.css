@@ -83,6 +83,14 @@ button {
   display: none;
 }
 
+.dragging {
+  opacity: 0.25;
+}
+
+[draggable=true]:focus-within {
+  cursor: move;
+}
+
 body {
   background: hsl(235, 32%, 92%);
 }

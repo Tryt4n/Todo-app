@@ -39,7 +39,12 @@ function setLightTheme() {
   btnImage.alt = "moon icon";
 }
 
-/////////////////////////  Handle Template Items  ///////////////////////////////////
+//! alerts
+//? queries
+// TODO
+//* highlights
+
+//////////////////* Handle Template Items ///////////////////////
 
 const newTodo = document.querySelector("[data-new-todo-input]");
 const newTodoCheckbox = document.querySelector("[data-new-todo-checkbox]");
@@ -244,3 +249,57 @@ function changeLengthText() {
 
   todoListLength.textContent = visibleChildCount + todoListLengthText;
 }
+
+////////////////////////* Drag and drop functionality ////////////////////////
+const draggables = document.querySelectorAll("[data-todo-item]");
+
+draggables.forEach((draggable) => {
+  draggable.addEventListener("dragstart", () => {
+    draggable.classList.add("dragging");
+  });
+
+  draggable.addEventListener("dragend", () => {
+    draggable.classList.remove("dragging");
+  });
+});
+
+todoListContainer.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  const afterElement = getDragAfterElement(todoListContainer, e.clientY);
+  const draggable = document.querySelector(".dragging");
+  if (afterElement == null) {
+    todoListContainer.appendChild(draggable);
+  } else {
+    todoListContainer.insertBefore(draggable, afterElement);
+  }
+});
+
+function getDragAfterElement(container, y) {
+  const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")];
+
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
+}
+
+//* Enables of dragging new todos in container
+todoListContainer.addEventListener("DOMNodeInserted", (e) => {
+  const newElement = e.target;
+
+  newElement.addEventListener("dragstart", () => {
+    newElement.classList.add("dragging");
+  });
+
+  newElement.addEventListener("dragend", () => {
+    newElement.classList.remove("dragging");
+  });
+});
