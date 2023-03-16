@@ -67,6 +67,7 @@ main {
   position: relative;
   padding: 1rem;
   border-radius: 0.5rem;
+  padding-top: 0.5rem;
 
   &__item {
     padding-block: 0.5rem;
@@ -81,6 +82,7 @@ main {
       flex-grow: 1;
       cursor: pointer;
       transition: v.$main-transition;
+      word-break: break-all;
       &::first-letter {
         text-transform: uppercase;
       }

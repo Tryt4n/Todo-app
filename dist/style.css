@@ -333,6 +333,7 @@ main::before {
   position: relative;
   padding: 1rem;
   border-radius: 0.5rem;
+  padding-top: 0.5rem;
 }
 .todo-container__item {
   padding-block: 0.5rem;
@@ -350,6 +351,7 @@ main::before {
   flex-grow: 1;
   cursor: pointer;
   transition: 300ms ease-in-out;
+  word-break: break-all;
 }
 .todo-container__item label::first-letter {
   text-transform: uppercase;

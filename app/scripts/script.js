@@ -39,11 +39,6 @@ function setLightTheme() {
   btnImage.alt = "moon icon";
 }
 
-//! alerts
-//? queries
-// TODO
-//* highlights
-
 //////////////////* Handle Template Items ///////////////////////
 
 const newTodo = document.querySelector("[data-new-todo-input]");
@@ -59,76 +54,38 @@ const allBtn = document.querySelector("[data-todo-all-btn]");
 let incrementor = 1;
 const existingTodos = JSON.parse(localStorage.getItem("todos")) || [];
 
-// Appending all existing todos based on localStorage
+//* Appending all existing todos based on localStorage
 existingTodos.forEach((todo) => {
-  const todoClone = todoTemplate.content.cloneNode(true);
-  const newTodoCheckboxTemplate = todoClone.querySelector("[data-todo-template-checkbox]");
-  const newTodoLabelTemplate = todoClone.querySelector("[data-todo-template-label]");
-
-  newTodoLabelTemplate.textContent = todo.value;
-  newTodoCheckboxTemplate.checked = todo.isChecked;
-  checkCheckboxStatus(newTodoCheckboxTemplate, newTodoLabelTemplate);
-
-  if (newTodoCheckboxTemplate.checked) {
-    newTodoLabelTemplate.classList.add("checked");
-  }
-
-  newTodoCheckboxTemplate.name = newTodoCheckboxTemplate.name + incrementor;
-  newTodoCheckboxTemplate.id = newTodoCheckboxTemplate.id + incrementor;
-  newTodoLabelTemplate.setAttribute("for", newTodoCheckboxTemplate.id);
-
-  todoListContainer.appendChild(todoClone);
-
+  addTodoItem(todo);
   incrementor++;
-
   changeLengthText();
 });
 
+//* Adding new todo item on Enter key press
 newTodo.addEventListener("keydown", (e) => {
-  const todoClone = todoTemplate.content.cloneNode(true);
-  const newTodoCheckboxTemplate = todoClone.querySelector("[data-todo-template-checkbox]");
-  const newTodoLabelTemplate = todoClone.querySelector("[data-todo-template-label]");
-
-  // Adding element on keydown of Enter
   if (e.keyCode === 13 && newTodo.value != "") {
-    newTodoLabelTemplate.textContent = newTodo.value;
-    checkCheckboxStatus(newTodoCheckboxTemplate, newTodoLabelTemplate);
+    const newTodoValue = newTodo.value;
+    const newTodoChecked = newTodoCheckbox.checked;
 
-    // Changing attributes values based on length
-    newTodoCheckboxTemplate.name = newTodoCheckboxTemplate.name + incrementor;
-    newTodoCheckboxTemplate.id = newTodoCheckboxTemplate.id + incrementor;
-    newTodoLabelTemplate.setAttribute("for", newTodoCheckboxTemplate.id);
-
-    // Hiding todos based on which navigation button is active
-    if (newTodoCheckboxTemplate.checked && activeBtn.classList.contains("active")) {
-      newTodoCheckboxTemplate.closest("[data-todo-item]").classList.add("hide");
-    }
-
-    if (!newTodoCheckboxTemplate.checked && completedBtn.classList.contains("active")) {
-      newTodoCheckboxTemplate.closest("[data-todo-item]").classList.add("hide");
-    }
-
-    // Appending new todo item
-    todoListContainer.appendChild(todoClone);
-
-    // Adding todo to localStorage
-    existingTodos.push({
-      value: newTodo.value,
-      isChecked: newTodoCheckbox.checked,
+    addTodoItem({
+      value: newTodoValue,
+      isChecked: newTodoChecked,
     });
-    localStorage.setItem("todos", JSON.stringify(existingTodos));
 
-    // Reset initial values
+    existingTodos.push({
+      value: newTodoValue,
+      isChecked: newTodoChecked,
+    });
+    updateLocalStorageTodos(existingTodos);
+
     newTodo.value = "";
     newTodoCheckbox.checked = false;
-    // Incrementing value by 1
     incrementor++;
-
     changeLengthText();
   }
 });
 
-// Handle checked status
+//* Handle checked status
 todoListContainer.addEventListener("click", (e) => {
   const todoItem = e.target.closest("[data-todo-item]");
   const label = todoItem.querySelector("[data-todo-label]");
@@ -138,21 +95,23 @@ todoListContainer.addEventListener("click", (e) => {
     label.classList.toggle("checked");
     // Updating check status in exisiting todos in localStorage
     existingTodos[todoIndex].isChecked = !existingTodos[todoIndex].isChecked;
-    localStorage.setItem("todos", JSON.stringify(existingTodos));
+
+    // Preventing todo items from changing places on changing checkboxes status
+    handleDragEndDropLocalStoragePosition();
   }
 
-  // Deleting todo on deleteBtn click
+  //* Deleting todo on deleteBtn click
   if (e.target.matches("[data-todo-delete-btn], [data-todo-delete-btn-image]")) {
     todoItem.remove();
     // Updating todos on localStorage after deleting todo
     existingTodos.splice(todoIndex, 1);
-    localStorage.setItem("todos", JSON.stringify(existingTodos));
+    updateLocalStorageTodos(existingTodos);
 
     changeLengthText();
   }
 });
 
-// Deleting all completed tasks
+//* Deleting all completed tasks
 const clearCompletedBtn = document.querySelector("[data-clear-all-completed-btn]");
 clearCompletedBtn.addEventListener("click", () => {
   const checkboxs = document.querySelectorAll("[data-todo-checkbox]");
@@ -165,7 +124,7 @@ clearCompletedBtn.addEventListener("click", () => {
       const label = checkedTodoItem.querySelector("[data-todo-label]");
       const todoIndex = existingTodos.findIndex((todo) => todo.value === label.textContent);
       existingTodos.splice(todoIndex, 1);
-      localStorage.setItem("todos", JSON.stringify(existingTodos));
+      updateLocalStorageTodos(existingTodos);
     }
     changeLengthText();
   });
@@ -174,7 +133,7 @@ clearCompletedBtn.addEventListener("click", () => {
 const todoNavigation = document.querySelector("[data-todo-navigation]");
 const navigationButtons = todoNavigation.querySelectorAll("*");
 
-// Hiding all not completed tasks if they're visible
+//* Hiding all not completed tasks if they're visible
 completedBtn.addEventListener("click", () => {
   navigationButtons.forEach((btn) => btn.classList.remove("active"));
   completedBtn.classList.add("active");
@@ -191,7 +150,7 @@ completedBtn.addEventListener("click", () => {
   });
 });
 
-// Hiding all completed tasks if they're visible
+//* Hiding all completed tasks if they're visible
 activeBtn.addEventListener("click", () => {
   navigationButtons.forEach((btn) => btn.classList.remove("active"));
   activeBtn.classList.add("active");
@@ -208,7 +167,7 @@ activeBtn.addEventListener("click", () => {
   });
 });
 
-// Show all tasks
+//* Showing all tasks
 allBtn.addEventListener("click", () => {
   navigationButtons.forEach((btn) => btn.classList.remove("active"));
   allBtn.classList.add("active");
@@ -222,7 +181,7 @@ allBtn.addEventListener("click", () => {
   changeLengthText();
 });
 
-// Checking status of checkbox
+//* Checking status of checkbox
 function checkCheckboxStatus(checkingCheckbox, labelOfCheckbox) {
   if (newTodoCheckbox.checked) {
     checkingCheckbox.checked = true;
@@ -230,7 +189,7 @@ function checkCheckboxStatus(checkingCheckbox, labelOfCheckbox) {
   }
 }
 
-// Changing text of list length
+//* Changing text of list length
 function changeLengthText() {
   let todoListLengthText = " items left";
   let visibleChildCount = 0;
@@ -248,6 +207,43 @@ function changeLengthText() {
   }
 
   todoListLength.textContent = visibleChildCount + todoListLengthText;
+}
+
+function addTodoItem(item) {
+  const todoClone = todoTemplate.content.cloneNode(true);
+  const newTodoCheckboxTemplate = todoClone.querySelector("[data-todo-template-checkbox]");
+  const newTodoLabelTemplate = todoClone.querySelector("[data-todo-template-label]");
+
+  newTodoLabelTemplate.textContent = item.value;
+  newTodoCheckboxTemplate.checked = item.isChecked;
+  checkCheckboxStatus(newTodoCheckboxTemplate, newTodoLabelTemplate);
+
+  if (newTodoCheckboxTemplate.checked) {
+    newTodoLabelTemplate.classList.add("checked");
+  }
+
+  newTodoCheckboxTemplate.name = newTodoCheckboxTemplate.name + incrementor;
+  newTodoCheckboxTemplate.id = newTodoCheckboxTemplate.id + incrementor;
+  newTodoLabelTemplate.setAttribute("for", newTodoCheckboxTemplate.id);
+
+  todoListContainer.appendChild(todoClone);
+}
+
+// Function to update todo list in localStorage
+function updateLocalStorageTodos(todos) {
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+
+// Function to update todo list in localStorage after drag and drop
+function handleDragEndDropLocalStoragePosition() {
+  const draggables = document.querySelectorAll("[draggable='true']");
+  const newTodos = [];
+  draggables.forEach((element) => {
+    const value = element.querySelector("[data-todo-label]").textContent;
+    const isChecked = element.querySelector("[data-todo-checkbox]").checked;
+    newTodos.push({ value, isChecked });
+  });
+  updateLocalStorageTodos(newTodos);
 }
 
 ////////////////////////* Drag and drop functionality ////////////////////////
@@ -301,5 +297,6 @@ todoListContainer.addEventListener("DOMNodeInserted", (e) => {
 
   newElement.addEventListener("dragend", () => {
     newElement.classList.remove("dragging");
+    handleDragEndDropLocalStoragePosition();
   });
 });
