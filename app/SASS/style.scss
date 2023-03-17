@@ -73,6 +73,7 @@ main {
     padding-block: 0.5rem;
     @include flex(row, flex-start, center);
     gap: 3rem;
+    cursor: move;
     & input:before,
     input::after {
       translate: 0 -50%;

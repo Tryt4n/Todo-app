@@ -1,7 +1,7 @@
 const changeThemeBtn = document.querySelector("[data-change-theme-btn]");
 const btnImage = document.querySelector("[data-change-theme-btn-image]");
 
-// THEMES
+//* THEMES
 window.addEventListener("load", () => {
   if (localStorage.getItem("theme")) {
     setThemeBasedOnLocalStorage();
@@ -236,7 +236,7 @@ function updateLocalStorageTodos(todos) {
 
 // Function to update todo list in localStorage after drag and drop
 function handleDragEndDropLocalStoragePosition() {
-  const draggables = document.querySelectorAll("[draggable='true']");
+  const draggables = document.querySelectorAll("[data-todo-item]");
   const newTodos = [];
   draggables.forEach((element) => {
     const value = element.querySelector("[data-todo-label]").textContent;
@@ -247,56 +247,14 @@ function handleDragEndDropLocalStoragePosition() {
 }
 
 ////////////////////////* Drag and drop functionality ////////////////////////
-const draggables = document.querySelectorAll("[data-todo-item]");
 
-draggables.forEach((draggable) => {
-  draggable.addEventListener("dragstart", () => {
-    draggable.classList.add("dragging");
-  });
-
-  draggable.addEventListener("dragend", () => {
-    draggable.classList.remove("dragging");
-  });
+var sortable = Sortable.create(todoListContainer, {
+  animation: 150,
+  ghostClass: "dragging",
+  onChange: handleDragEndDropLocalStoragePosition(),
 });
-
-todoListContainer.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  const afterElement = getDragAfterElement(todoListContainer, e.clientY);
-  const draggable = document.querySelector(".dragging");
-  if (afterElement == null) {
-    todoListContainer.appendChild(draggable);
-  } else {
-    todoListContainer.insertBefore(draggable, afterElement);
-  }
-});
-
-function getDragAfterElement(container, y) {
-  const draggableElements = [...container.querySelectorAll(".draggable:not(.dragging)")];
-
-  return draggableElements.reduce(
-    (closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
-      if (offset < 0 && offset > closest.offset) {
-        return { offset: offset, element: child };
-      } else {
-        return closest;
-      }
-    },
-    { offset: Number.NEGATIVE_INFINITY }
-  ).element;
-}
 
 //* Enables of dragging new todos in container
 todoListContainer.addEventListener("DOMNodeInserted", (e) => {
-  const newElement = e.target;
-
-  newElement.addEventListener("dragstart", () => {
-    newElement.classList.add("dragging");
-  });
-
-  newElement.addEventListener("dragend", () => {
-    newElement.classList.remove("dragging");
-    handleDragEndDropLocalStoragePosition();
-  });
+  handleDragEndDropLocalStoragePosition();
 });

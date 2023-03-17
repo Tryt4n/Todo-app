@@ -87,10 +87,6 @@ button {
   opacity: 0.25;
 }
 
-[draggable=true]:focus-within {
-  cursor: move;
-}
-
 body {
   background: hsl(235, 32%, 92%);
 }
@@ -342,6 +338,7 @@ main::before {
   justify-content: flex-start;
   align-items: center;
   gap: 3rem;
+  cursor: move;
 }
 .todo-container__item input:before,
 .todo-container__item input::after {
