@@ -83,7 +83,6 @@ main {
       flex-grow: 1;
       cursor: pointer;
       transition: v.$main-transition;
-      word-break: break-all;
       &::first-letter {
         text-transform: uppercase;
       }

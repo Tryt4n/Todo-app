@@ -238,10 +238,16 @@ function updateLocalStorageTodos(todos) {
 function handleDragEndDropLocalStoragePosition() {
   const draggables = document.querySelectorAll("[data-todo-item]");
   const newTodos = [];
+  const uniqueValues = [];
   draggables.forEach((element) => {
     const value = element.querySelector("[data-todo-label]").textContent;
     const isChecked = element.querySelector("[data-todo-checkbox]").checked;
-    newTodos.push({ value, isChecked });
+
+    // Adding new todo item only if it's unique
+    if (!uniqueValues.includes(value)) {
+      newTodos.push({ value, isChecked });
+      uniqueValues.push(value);
+    }
   });
   updateLocalStorageTodos(newTodos);
 }
