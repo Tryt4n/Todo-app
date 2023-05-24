@@ -1,5 +1,7 @@
 # Frontend Mentor - Todo app
 
+[Link to the page](https://todoapp-with-local-storage-and-themes.netlify.app/app/)
+
 ![Design preview for the Todo app coding challenge](./design/desktop-preview.jpg)
 
 ## Welcome! 👋
